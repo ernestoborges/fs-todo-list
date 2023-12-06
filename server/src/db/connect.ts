@@ -1,11 +1,16 @@
-import { Pool } from 'pg';
 import * as dotenv from 'dotenv';
+const { Sequelize } = require('sequelize');
+
 dotenv.config();
 
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: true,
-});
+const sequelize = new Sequelize(process.env.DATABASE_URL)
 
+sequelize.sync({ logging: false })
+    .then(() => {
+        console.log('[SEQUELIZE] Tables have been synchronized!');
+    })
+    .catch((error: any) => {
+        console.error('[SEQUELIZE] Error synchronizing tables: ', error);
+    });
 
-export { pool }
+export { sequelize }
