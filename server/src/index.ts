@@ -1,16 +1,12 @@
 import express from 'express'
-import { pool } from "./db/connect"
+import routes from './routes/index.ts';
+import cors from "cors";
 
 const app = express()
+app.use(express.json());
+app.use(cors())
 
-app.get("/", async (req, res) => {
-    try {
-        const users = await pool.query('SELECT * FROM users')
-        res.send(users.rows[0]);
-    } catch (err) {
-        console.log(err)
-    }
-})
+app.use('/api', routes);
 
 app.listen(3000, () => {
     console.log("Server running on port 3000")
