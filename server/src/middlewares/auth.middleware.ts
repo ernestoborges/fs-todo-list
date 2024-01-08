@@ -12,20 +12,20 @@ interface CustomRequest extends Request {
 export const authMiddleware = (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
         const authHeader = req.headers['authorization'];
-        const token = authHeader && authHeader.split(' ')[1];
+        const accessToken = authHeader && authHeader.split(' ')[1];
 
-        if (!token) {
+        if (!accessToken) {
             return res.sendStatus(401);
         }
 
-        const data = jwt.verify(token, "secret");
+        const data = jwt.verify(accessToken, process.env.JWT_TOKEN_SECRET!);
         const { id } = data as AccessTokenPayload;
         req.userId = id;
 
         return next();
     } catch (error) {
         if (error instanceof JsonWebTokenError) {
-            return res.status(401).json({ message: "Invalis acess token." });
+            return res.status(401).json({ message: "Invalid access token." });
         }
         return res.status(500).json({ message: "Internal Error." });
     }

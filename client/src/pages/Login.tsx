@@ -1,30 +1,45 @@
 import { useForm } from "react-hook-form";
 import { AuthenticationLayout } from "../layouts/Authentication";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
+import { useAuth } from "../providers/AuthProvider";
 
 export function Login() {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const { setAccessToken, setIsLoggedIn } = useAuth();
+    const navigate = useNavigate();
+
     const [message, setMessage] = useState("")
 
     const onSubmit = async (data: any) => {
         const { username, password } = data
 
-        try {
-            const response = await axios.post(
-                'http://localhost:3000/api/users/login',
-                {
-                    username,
-                    password
+        axios.post(
+            `${import.meta.env.VITE_BASE_URL}/api/user/login`,
+            {
+                username,
+                password
+            },
+            {
+                withCredentials: true
+            }
+        )
+            .then(response => {
+                return response
+            })
+            .then(response => {
+                setAccessToken(response.data.accessToken);
+                setIsLoggedIn(true);
+                navigate("/");
+            })
+            .catch(error => {
+                console.log(error);
+                if (error.response.status === 401) {
+                    setMessage(error.response.data.message);
                 }
-            );
-            alert(response.data.json())
-        } catch (error: any) {
-            setMessage(error.response.data.message);
-        }
-
+            });
     };
 
     return <>
