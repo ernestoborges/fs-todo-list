@@ -9,7 +9,10 @@ export default {
       colors: {
         "marine": "#111827",
         "card": "#1f2937",
-        "secondary-text": "#9ca3af"
+        "secondary-text": "#9ca3af",
+        "purple-darker": "#6F61C0",
+        "lilac": "#A084E8",
+        "turquoise": "#8BE8E5"
       }
     },
   },
