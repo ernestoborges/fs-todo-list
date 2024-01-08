@@ -3,6 +3,12 @@ import { AuthenticationLayout } from "../layouts/Authentication";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
+import { MdOutlineCircle, MdCircle } from "react-icons/md";
+
+
+
+
+
 
 export function Register() {
 
@@ -31,15 +37,25 @@ export function Register() {
 
     return <>
         <AuthenticationLayout>
-            <div className="flex flex-col gap-10">
+            <div className="flex flex-col w-full ">
                 <header
-                    className="flex justify-center items-center"
+                    className="flex justify-between p-4"
                 >
-                    <h1 className="font-thin text-3xl text-[#999999]">Register a new account</h1>
+                    <h1 className="font-thin text-3xl text-[#000000]">Register a new account</h1>
+                    <div className="flex text-4xl text-purple-darker">
+                    <MdCircle />
+                        <Link to="/login"><MdOutlineCircle /></Link>
+                        
+                   </div>
+
+
                 </header>
+                <div className="divide-y-4 divide-purple-darker"> <hr></hr>
+                <hr></hr></div>
+              
                 <form
                     onSubmit={handleSubmit(onSubmit)}
-                    className="flex flex-col gap-10"
+                    className="flex flex-col gap-10 p-8"
                 >
                     <label
                         className="cc-label"
@@ -49,7 +65,7 @@ export function Register() {
                             {errors.email && <span className="italic font-thin text-xl normal-case text-red-500"> - email is required</span>}
                         </div>
                         <input
-                            className="cc-input"
+                            className="cc-input border-4 border-purple-darker rounded-md"
                             placeholder="Email"
                             {...register('email', { required: true })}
                         />
@@ -62,7 +78,7 @@ export function Register() {
                             {errors.username && <span className="italic font-thin text-xl normal-case text-red-500"> - username is required</span>}
                         </div>
                         <input
-                            className="cc-input"
+                            className="cc-input border-4 border-purple-darker rounded-md"
                             placeholder="Username"
                             {...register('username', { required: true })}
                         />
@@ -75,7 +91,7 @@ export function Register() {
                             {errors.password && <span className="italic font-thin text-xl normal-case text-red-500"> - password is required</span>}
                         </div>
                         <input
-                            className="cc-input"
+                            className="cc-input border-4 border-purple-darker rounded-md"
                             placeholder="Password"
                             type="password"
                             {...register('password', { required: true })}
@@ -85,13 +101,13 @@ export function Register() {
                         {message}
                     </div>
                     <button
-                        className="uppercase w-full p-4 bg-indigo-950 rounded-lg text-white hover:bg-indigo-800"
+                        className="uppercase w-full p-4 bg-purple-darker rounded-lg text-white hover:bg-indigo-800"
                     >
                         Sign up
                     </button>
                 </form>
                 <footer
-                    className="text-[#999999] flex justify-center gap-2"
+                    className="text-[#6f6d6d] flex justify-center gap-2 p-8"
                 >
                     Already a member? <Link className="text-indigo-950 font-bold hover:underline" to="/login">Login</Link>
                 </footer>
