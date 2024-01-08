@@ -9,6 +9,7 @@ export default {
       colors: {
         "marine": "#111827",
         "card": "#1f2937",
+        "primary-text": "#FFFFFF",
         "secondary-text": "#9ca3af"
       }
     },

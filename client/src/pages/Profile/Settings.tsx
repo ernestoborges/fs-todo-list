@@ -7,7 +7,7 @@ export function Settings(){
         {title: "Account", link:""},
     ]
 
-    return <section className="flex h-full">
+    return <section className="flex h-full bg-card">
         <SecondaryNavbar itemsList={itemsList}/>
         <Outlet />
     </section>

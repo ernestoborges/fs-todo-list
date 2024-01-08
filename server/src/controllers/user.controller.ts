@@ -41,12 +41,20 @@ export const createUser = async (req: Request, res: Response) => {
 
 export const getUserData = async (req: CustomRequest, res: Response) => {
 
-    if (!req.userId) return res.status(400).json({ message: 'Nome de usuario necessário' });
+    let { userId } = req
 
-    const user = await User.findOne({ _id: req.userId });
+    if (!userId) return res.status(400).json({ message: 'Nome de usuario necessário' });
+
+    const user = await User.findByPk(userId);
     if (!user) {
-        return res.status(204).json({ message: `Não encontrado dados do usuario: ${req.body.username}` });
+        return res.status(204).json({ message: `Não encontrado dados do usuario` });
     }
 
-    res.json(user);
+    const data = {
+        username: user.username,
+        email: user.email,
+        createdAt: user.createdAt
+    }
+
+    return res.status(200).json(data);
 };

@@ -6,8 +6,8 @@ import { Home } from './pages/Home';
 import { Teams } from './pages/Teams';
 import { Account } from './pages/Profile/Account';
 import { Settings } from './pages/Profile/Settings';
-
 function App() {
+
   return (
     <>
       <Router>
@@ -19,6 +19,7 @@ function App() {
               <Route index element={<Account />} />
             </Route>
           </Route>
+
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
