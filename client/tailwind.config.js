@@ -6,6 +6,10 @@ export default {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        'back': "url('../src/assets/Sprinkle.svg')",
+        
+      },
       colors: {
         "marine": "#111827",
         "card": "#1f2937",
