@@ -2,10 +2,7 @@ import { Request, Response } from 'express';
 import User from '../db/models/User';
 import { Op } from "sequelize"
 import bcrypt from 'bcrypt';
-
-interface CustomRequest extends Request {
-    userId?: string;
-}
+import { CustomRequest } from './common';
 
 export const createUser = async (req: Request, res: Response) => {
     try {

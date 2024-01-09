@@ -4,10 +4,7 @@ import { Op } from "sequelize"
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken'
 import RefreshToken from '../db/models/RefreshToken';
-
-interface CustomRequest extends Request {
-    userId?: string;
-}
+import { CustomRequest } from './common';
 
 export const userLogin = async (req: Request, res: Response) => {
 
@@ -61,6 +58,7 @@ export const userLogin = async (req: Request, res: Response) => {
                 token: accessToken,
             });
         }
+
         res.cookie(
             "refreshToken",
             refreshToken,
@@ -71,8 +69,8 @@ export const userLogin = async (req: Request, res: Response) => {
                 maxAge: 24 * 60 * 60 * 1000
             }
         );
-        res.status(200).json({ accessToken });
 
+        res.status(200).json({ accessToken });
     } catch (error) {
         console.error('Login error: ', error);
         res.status(500).json({ message: 'Internal error.' });

@@ -2,6 +2,7 @@ import { AiOutlineHome } from "react-icons/ai";
 import { BsPeople } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { useProfileData } from "../providers/ProfileDataProvider";
+import { IoList } from "react-icons/io5";
 
 export function MainNavbar() {
 
@@ -9,6 +10,7 @@ export function MainNavbar() {
 
     const navItems = [
         { title: "Home", link: "", icon: <AiOutlineHome /> },
+        { title: "My lists", link: "lists", icon: <IoList /> },
         { title: "Teams", link: "teams", icon: <BsPeople /> },
     ]
 

@@ -38,7 +38,7 @@ export function MainLayout() {
     return <>
         <div className="flex w-full h-full">
             <MainNavbar />
-            <main className="grow">
+            <main className="grow bg-card">
                 <Outlet />
             </main>
         </div>
