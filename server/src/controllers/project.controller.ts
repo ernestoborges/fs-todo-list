@@ -2,10 +2,10 @@ import Project from "../db/models/Project";
 import { Response } from 'express';
 import { CustomRequest } from "./common";
 import User from "../db/models/User";
+import ProjectMember from "../db/models/ProjectMember";
+import Task from "../db/models/Task";
 
-
-export const getProjects = async (req: CustomRequest, res: Response) => {
-    console.log("entrei")
+export const getUserProjects = async (req: CustomRequest, res: Response) => {
     try {
         let { userId } = req
 
@@ -17,6 +17,35 @@ export const getProjects = async (req: CustomRequest, res: Response) => {
     }
 }
 
+export const getProject = async (req: CustomRequest, res: Response) => {
+    try {
+        let { userId } = req
+        let { routeId } = req.params
+
+        const foundProject = await Project.findOne({ where: { route_id: routeId } })
+
+        const foundTasks = await Task.findAll({ where: { project_id: foundProject.id } })
+
+        const resposeTaskList = foundTasks.map((task: any) => ({
+            id: task.id,
+            title: task.title,
+            description: task.description,
+            status: task.status,
+            type: task.type
+        }))
+
+        const response = {
+            title: foundProject.title,
+            description: foundProject.description,
+            tasks: resposeTaskList,
+            createdAt: foundProject.createdAt
+        }
+
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(500).json({ message: 'Internal error', error });
+    }
+}
 
 export const createProject = async (req: CustomRequest, res: Response) => {
     try {
@@ -54,3 +83,73 @@ export const deleteProject = async (req: CustomRequest, res: Response) => {
         return res.status(500).json({ message: 'Internal error', error });
     }
 };
+
+export const newTask = async (req: CustomRequest, res: Response) => {
+    try {
+        let { userId } = req
+        let { routeId } = req.params
+        let { title, description, type } = req.body
+
+        const foundProject = await Project.findOne({ where: { route_id: routeId } })
+        if (!foundProject) return res.status(400)
+
+        if (foundProject.leader_id !== userId) {
+            const foundProjectMember = await ProjectMember.findOne({ where: { project_id: foundProject.id, user_id: userId } })
+            if (!foundProjectMember) return res.status(401).json({ message: "You are not a member of this project" })
+        }
+
+        const newTask = await Task.create({
+            title,
+            project_id: foundProject.id,
+            description,
+            type,
+        })
+
+        const response = {
+            title: newTask.title,
+            description: newTask.description,
+            type: newTask.type,
+            status: newTask.status,
+            createdAt: newTask.createdAt
+        }
+
+        return res.status(201).json(response)
+    } catch (error) {
+        return res.status(500).json({ message: 'Internal error', error });
+    }
+}
+
+export const updateTask = async (req: CustomRequest, res: Response) => {
+    try {
+        let { userId } = req
+        let { routeId, taskId } = req.params
+        let { title, description, type, status } = req.body
+
+        const foundProject = await Project.findOne({ where: { route_id: routeId } })
+        if (!foundProject) return res.status(400)
+
+        if (foundProject.leader_id !== userId) {
+            const foundProjectMember = await ProjectMember.findOne({ where: { project_id: foundProject.id, user_id: userId } })
+            if (!foundProjectMember) return res.status(401).json({ message: "You are not a member of this project" })
+        }
+
+        const [rowsUpdated, [updateTask]] = await Task.update({
+            title,
+            description,
+            type,
+            status
+        }, {
+            where: {
+                id: taskId,
+                project_id: foundProject.id
+            },
+            returning: true,
+        })
+
+        if(!rowsUpdated) return res.status(400)
+
+        return res.status(201).json(updateTask)
+    } catch (error) {
+        return res.status(500).json({ message: 'Internal error', error });
+    }
+}

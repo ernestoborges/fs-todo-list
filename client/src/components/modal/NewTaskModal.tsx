@@ -4,16 +4,18 @@ import { useForm } from "react-hook-form"
 import { LoadingSpin } from "../LoadingSpin"
 import { useAxiosPrivate } from "../../hooks/useAxiosPrivate"
 
-export function NewProjectModal({
+export function NewTaskModal({
     isOpen,
     hasCloseBtn,
     onClose,
-    onSucess
+    onSucess,
+    routeId
 }: {
     isOpen: boolean
     hasCloseBtn: boolean
     onClose?: () => any
     onSucess?: () => any
+    routeId: string
 }) {
 
     const axiosPrivate = useAxiosPrivate();
@@ -24,15 +26,16 @@ export function NewProjectModal({
 
     const onSubmit = async (data: any) => {
         setIsLoading(true);
-        const { title, description } = data
+        const { title, description, type } = data
 
         const controller = new AbortController();
         try {
             const response = await axiosPrivate.post(
-                '/api/project',
+                `/api/project/${routeId}`,
                 {
                     title,
-                    description
+                    description,
+                    type: type ? "private" : "public"
                 },
                 {
                     signal: controller.signal
@@ -53,7 +56,7 @@ export function NewProjectModal({
 
     return <Modal
         isOpen={isOpen}
-        title="New Project"
+        title="New task"
         hasCloseBtn={hasCloseBtn}
         onClose={onClose}
     >
@@ -87,6 +90,17 @@ export function NewProjectModal({
                         {...register('description', { required: false })}
                     />
                 </label>
+                <label
+                    className="flex flex-col"
+                >
+                    <input
+                        className="cc-input text-black"
+                        type="checkbox"
+                        {...register('type')}
+                    />
+                    <span>Private</span>
+                </label>
+
             </div>
             {
                 message &&

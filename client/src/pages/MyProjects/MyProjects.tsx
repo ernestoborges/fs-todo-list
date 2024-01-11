@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
-import { NewProjectModal } from "../components/modal/NewProjectModal"
-import { LoadingSpin } from "../components/LoadingSpin";
-import { useAxiosPrivate } from "../hooks/useAxiosPrivate";
+import { NewProjectModal } from "../../components/modal/NewProjectModal"
+import { LoadingSpin } from "../../components/LoadingSpin";
+import { useAxiosPrivate } from "../../hooks/useAxiosPrivate";
 import { FaRegTrashCan } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
-export function Lists() {
+export function MyToDoLists() {
 
     const axiosPrivate = useAxiosPrivate()
 
@@ -23,7 +24,7 @@ export function Lists() {
     const fetchProjects = async () => {
         setIsLoadingProjects(true)
         const controller = new AbortController();
-        const response = await axiosPrivate.get(`/api/user/my-projects`, {
+        const response = await axiosPrivate.get(`/api/project`, {
             signal: controller.signal
         })
         if (response.status === 201) {
@@ -83,7 +84,12 @@ export function Lists() {
                                 >
                                     <div>
                                         <p>
-                                            {project.title}
+                                            <Link
+                                                to={`${project.route_id}`}
+                                                className="hover:underline"
+                                            >
+                                                {project.title}
+                                            </Link>
                                         </p>
                                         <p className="text-secondary-text">{project.description}</p>
                                     </div>

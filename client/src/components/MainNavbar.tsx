@@ -10,7 +10,7 @@ export function MainNavbar() {
 
     const navItems = [
         { title: "Home", link: "", icon: <AiOutlineHome /> },
-        { title: "My lists", link: "lists", icon: <IoList /> },
+        { title: "My projects", link: "projects", icon: <IoList /> },
         { title: "Teams", link: "teams", icon: <BsPeople /> },
     ]
 

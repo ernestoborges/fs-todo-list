@@ -6,7 +6,8 @@ import { Home } from './pages/Home';
 import { Teams } from './pages/Teams';
 import { Account } from './pages/Profile/Account';
 import { Settings } from './pages/Profile/Settings';
-import { Lists } from './pages/Lists';
+import { MyToDoLists } from './pages/MyProjects/MyProjects';
+import { ToDoList } from './pages/MyProjects/Project';
 function App() {
 
   return (
@@ -15,7 +16,10 @@ function App() {
         <Routes>
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Home />} />
-            <Route path='lists' element={<Lists />} />
+            <Route path='projects'>
+              <Route index element={<MyToDoLists />} />
+              <Route path=':routeId' element={<ToDoList />} />
+            </Route>
             <Route path='teams' element={<Teams />} />
             <Route path='settings' element={<Settings />}>
               <Route index element={<Account />} />
