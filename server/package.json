@@ -16,6 +16,7 @@
     "@types/cors": "^2.8.17",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/pg": "^8.10.9",
+    "@types/uuid": "^9.0.7",
     "nodemon": "^3.0.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.3.2"
@@ -31,6 +32,7 @@
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.11.3",
     "sequelize": "^6.35.1",
-    "ts-node-dev": "^2.0.0"
+    "ts-node-dev": "^2.0.0",
+    "uuid": "^9.0.1"
   }
 }

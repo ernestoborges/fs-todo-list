@@ -45,3 +45,11 @@ body {
 .cc-label {
   @apply flex flex-col items-start gap-1 uppercase font-bold text-2xl
 }
+
+.task-detail-hidden {
+  display: none;
+}
+
+.task-item:hover .task-detail-hidden {
+  display: flex;
+}

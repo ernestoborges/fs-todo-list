@@ -1,24 +1,21 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../connect';
 import User from './User';
+import Project from './Project';
 
-const Project = sequelize.define(
-    "Project",
+const Task = sequelize.define(
+    "Task",
     {
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
         },
-        route_id: {
+        project_id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
-        },
-        leader_id: {
-            type: DataTypes.UUID,
-            allowNull: false,
             references: {
-                model: "Users",
+                model: "Projects",
                 key: 'id',
             },
             onUpdate: 'restrict',
@@ -31,11 +28,20 @@ const Project = sequelize.define(
         description: {
             type: DataTypes.STRING(200),
             defaultValue: null
-        }
+        },
+        status: {
+            type: DataTypes.ENUM('todo', 'doing', 'done'),
+            allowNull: false,
+            defaultValue: 'todo'
+        },
+        type: {
+            type: DataTypes.ENUM('public', 'private'),
+            defaultValue: 'public',
+        },
     }
 )
 
-User.hasMany(Project, { foreignKey: 'leader_id' });
-Project.belongsTo(User, { foreignKey: 'leader_id' });
+Project.hasMany(Task, { foreignKey: 'project_id' })
+Task.belongsTo(Project, { foreignKey: 'project_id' })
 
-export default Project
+export default Task

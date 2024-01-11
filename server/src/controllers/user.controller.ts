@@ -40,12 +40,10 @@ export const getUserData = async (req: CustomRequest, res: Response) => {
 
     let { userId } = req
 
-    if (!userId) return res.status(400).json({ message: 'Nome de usuario necessário' });
+    if (!userId) return res.status(400).json({ message: 'Missing data' });
 
     const user = await User.findByPk(userId);
-    if (!user) {
-        return res.status(204).json({ message: `Não encontrado dados do usuario` });
-    }
+    if (!user) return res.status(404).json({ message: `User not found` });
 
     const data = {
         username: user.username,
