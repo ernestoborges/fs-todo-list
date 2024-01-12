@@ -14,10 +14,10 @@ export function AuthenticationLayout({
     }, [])
 
     return <main
-        className="bg-[#111827] w-full h-full flex items-center justify-center text-indigo-950"
+        className="bg-back w-full h-full flex items-center justify-center text-indigo-950"
     >
         <article
-            className="bg-[#dae5e8] p-14 rounded-lg shadow-md shadow-black"
+            className="bg-[#D5FFE4] border-4 border-purple-darker rounded-2xl	 shadow-[10px_10px_0_0_rgba(78,64,160,0.75)]"
         >
             {children}
         </article>
