@@ -2,10 +2,7 @@ import { Request, Response } from 'express';
 import User from '../db/models/User';
 import { Op } from "sequelize"
 import bcrypt from 'bcrypt';
-
-interface CustomRequest extends Request {
-    userId?: string;
-}
+import { CustomRequest } from './common';
 
 export const createUser = async (req: Request, res: Response) => {
     try {
@@ -41,12 +38,18 @@ export const createUser = async (req: Request, res: Response) => {
 
 export const getUserData = async (req: CustomRequest, res: Response) => {
 
-    if (!req.userId) return res.status(400).json({ message: 'Nome de usuario necessário' });
+    let { userId } = req
 
-    const user = await User.findOne({ _id: req.userId });
-    if (!user) {
-        return res.status(204).json({ message: `Não encontrado dados do usuario: ${req.body.username}` });
+    if (!userId) return res.status(400).json({ message: 'Missing data' });
+
+    const user = await User.findByPk(userId);
+    if (!user) return res.status(404).json({ message: `User not found` });
+
+    const data = {
+        username: user.username,
+        email: user.email,
+        createdAt: user.createdAt
     }
 
-    res.json(user);
+    return res.status(200).json(data);
 };

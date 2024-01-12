@@ -1,12 +1,16 @@
 import { AiOutlineHome } from "react-icons/ai";
 import { BsPeople } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { useProfileData } from "../providers/ProfileDataProvider";
+import { IoList } from "react-icons/io5";
 
 export function MainNavbar() {
 
+    const { profileData } = useProfileData();
 
     const navItems = [
         { title: "Home", link: "", icon: <AiOutlineHome /> },
+        { title: "My projects", link: "projects", icon: <IoList /> },
         { title: "Teams", link: "teams", icon: <BsPeople /> },
     ]
 
@@ -46,7 +50,7 @@ export function MainNavbar() {
                     <div className="w-[3rem] h-[3rem] rounded-full overflow-hidden">
                         <img src="https://i.pravatar.cc/300" />
                     </div>
-                    <span>Ernesto</span>
+                    <span>{profileData?.username}</span>
                 </Link>
             </section>
         </nav >

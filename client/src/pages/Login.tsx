@@ -1,9 +1,10 @@
 import { useForm } from "react-hook-form";
 import { AuthenticationLayout } from "../layouts/Authentication";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 import { MdOutlineCircle, MdCircle } from "react-icons/md";
+import { useAuth } from "../providers/AuthProvider";
 
 export function Login() {
   const {
@@ -11,8 +12,10 @@ export function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate();
+  
   const [message, setMessage] = useState("");
-
+  
   const onSubmit = async (data: any) => {
     const { username, password } = data;
 
