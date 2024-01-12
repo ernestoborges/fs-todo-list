@@ -18,7 +18,7 @@ export function Register() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/users/register",
+        "http://localhost:3000/api/user/register",
         {
           email,
           username,
